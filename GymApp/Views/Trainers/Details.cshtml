@@ -1,0 +1,53 @@
+﻿@model GymApp.Models.Trainer
+
+@{
+    ViewData["Title"] = "Eğitmen Profili";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-5">
+
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div style="height: 150px; background: linear-gradient(135deg, #FFC107 0%, #FF9800 100%);"></div>
+
+            <div class="card-body text-center p-4 position-relative">
+                <div style="margin-top: -90px; margin-bottom: 20px;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" class="rounded-circle shadow-lg border border-4 border-white" style="width: 150px; height: 150px; object-fit: cover;" alt="@Model.FullName">
+                    }
+                    else
+                    {
+                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="rounded-circle shadow-lg border border-4 border-white" style="width: 150px; height: 150px; object-fit: cover;" alt="Varsayılan">
+                    }
+                </div>
+
+                <h2 class="fw-bold mb-1">@Model.FullName</h2>
+                <span class="badge bg-dark rounded-pill px-3 py-2 mb-4">@Model.Specialization Uzmanı</span>
+
+                <div class="row g-2 mb-4">
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <h4 class="fw-bold text-warning mb-0">@Model.Experience Yıl</h4>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Deneyim</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <h4 class="fw-bold text-dark mb-0 text-truncate">@(Model.Gym != null ? Model.Gym.Name : "-")</h4>
+                            <small class="text-muted text-uppercase fw-bold" style="font-size: 0.7rem;">Şube</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.TrainerId" class="btn btn-outline-dark rounded-pill fw-bold">
+                        <i class="fa-solid fa-pen me-2"></i> Profili Düzenle
+                    </a>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-muted">Listeye Dön</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

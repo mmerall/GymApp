@@ -1,0 +1,247 @@
+﻿@{
+    ViewData["Title"] = "Yönetim Paneli";
+}
+
+<style>
+    .dashboard-hero {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+        .dashboard-hero::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(227,30,36,0.2) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+        }
+
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 5px solid transparent;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .stat-card.primary {
+            border-left-color: #0d6efd;
+        }
+
+        .stat-card.success {
+            border-left-color: #198754;
+        }
+
+        .stat-card.warning {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.danger {
+            border-left-color: #dc3545;
+        }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .bg-light-primary {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+
+    .bg-light-success {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+
+    .bg-light-warning {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .bg-light-danger {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+    }
+
+    .quick-action-btn {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+        .quick-action-btn:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+            border-color: #ddd;
+            color: #e31e24; /* Tema kırmızısı */
+        }
+</style>
+
+<div class="dashboard-hero mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold mb-2">Hoşgeldiniz👋</h1>
+            <p class="fs-5 text-white-50 mb-4">Spor salonu yönetim paneliniz hazır. Bugün sistemde her şey yolunda görünüyor.</p>
+            <div class="d-flex gap-3">
+                <button class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow">
+                    <i class="fa-solid fa-bolt me-2"></i> Hızlı Rapor
+                </button>
+                <button class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">
+                    <i class="fa-solid fa-gear me-2"></i> Ayarlar
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4 d-none d-md-block text-end opacity-75">
+            <i class="fa-solid fa-chart-line fa-8x text-white-50"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-3 mb-4">
+        <div class="stat-card primary">
+            <div>
+                <h6 class="text-muted fw-bold text-uppercase mb-1">Toplam Üye</h6>
+                <h2 class="fw-bold mb-0">1,245</h2>
+                <small class="text-success fw-bold"><i class="fa-solid fa-arrow-up"></i> %12 Artış</small>
+            </div>
+            <div class="stat-icon bg-light-primary">
+                <i class="fa-solid fa-users"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card success">
+            <div>
+                <h6 class="text-muted fw-bold text-uppercase mb-1">Aktif Salon</h6>
+                <h2 class="fw-bold mb-0">8</h2>
+                <small class="text-success fw-bold">Tüm Sistemler Aktif</small>
+            </div>
+            <div class="stat-icon bg-light-success">
+                <i class="fa-solid fa-building"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card warning">
+            <div>
+                <h6 class="text-muted fw-bold text-uppercase mb-1">Eğitmenler</h6>
+                <h2 class="fw-bold mb-0">42</h2>
+                <small class="text-muted">3 Yeni Başvuru</small>
+            </div>
+            <div class="stat-icon bg-light-warning">
+                <i class="fa-solid fa-user-ninja"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="stat-card danger">
+            <div>
+                <h6 class="text-muted fw-bold text-uppercase mb-1">Aylık Ciro</h6>
+                <h2 class="fw-bold mb-0">₺185K</h2>
+                <small class="text-success fw-bold"><i class="fa-solid fa-arrow-up"></i> %5 Hedef Üstü</small>
+            </div>
+            <div class="stat-icon bg-light-danger">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-white border-0 p-4 pb-0">
+                <h4 class="fw-bold">Hızlı Erişim</h4>
+                <p class="text-muted small">Sık kullanılan yönetim araçlarına tek tıkla ulaşın.</p>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="/Gyms/Create" class="quick-action-btn">
+                            <div class="me-3 p-2 rounded bg-light text-danger"><i class="fa-solid fa-plus fa-lg"></i></div>
+                            <div>
+                                <div class="fw-bold">Yeni Salon Ekle</div>
+                                <small class="text-muted">Sisteme yeni bir şube tanımla</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/Gyms/Index" class="quick-action-btn">
+                            <div class="me-3 p-2 rounded bg-light text-primary"><i class="fa-solid fa-list-check fa-lg"></i></div>
+                            <div>
+                                <div class="fw-bold">Salonları Listele</div>
+                                <small class="text-muted">Tüm şubeleri görüntüle ve düzenle</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="quick-action-btn">
+                            <div class="me-3 p-2 rounded bg-light text-warning"><i class="fa-solid fa-user-plus fa-lg"></i></div>
+                            <div>
+                                <div class="fw-bold">Antrenör Atama (Yakında)</div>
+                                <small class="text-muted">Eğitmenleri şubelere ata</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="quick-action-btn">
+                            <div class="me-3 p-2 rounded bg-light text-success"><i class="fa-solid fa-chart-pie fa-lg"></i></div>
+                            <div>
+                                <div class="fw-bold">Raporlar (Yakında)</div>
+                                <small class="text-muted">Detaylı analizleri incele</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="card border-0 shadow-sm rounded-4 h-100 bg-dark text-white" style="background: url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'); background-size: cover; background-blend-mode: overlay;">
+            <div class="card-body p-4 d-flex flex-column justify-content-end" style="min-height: 300px;">
+                <span class="badge bg-danger w-25 mb-3">CANLI</span>
+                <h3 class="fw-bold">Mobil Uygulama Yayında!</h3>
+                <p class="opacity-75">Üyeleriniz artık App Store ve Google Play üzerinden randevu alabilirler.</p>
+                <button class="btn btn-light rounded-pill fw-bold w-100 mt-2">Detayları İncele</button>
+            </div>
+        </div>
+    </div>
+</div>

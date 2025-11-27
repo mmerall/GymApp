@@ -1,0 +1,129 @@
+/* --- GENEL AYARLAR VE RENKLER --- */
+:root {
+    --ana-renk: #e31e24; /* O güzel kýrmýzý */
+    --koyu-renk: #1a1a1a;
+    --sidebar-bg: #212529;
+    --sidebar-width: 250px;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- SOL MENÜ (SIDEBAR) TASARIMI --- */
+#wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: #fff;
+    transition: margin .25s ease-out;
+}
+
+.sidebar-heading {
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 1px;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+    .list-group-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .list-group-item i {
+        margin-right: 15px;
+        width: 20px;
+        text-align: center;
+    }
+
+/* --- ÝÇERÝK ALANI --- */
+#page-content-wrapper {
+    flex: 1;
+    width: 100%;
+}
+
+/* --- MACFIT TARZI HERO (ANA SAYFA) --- */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.btn-macfit {
+    background-color: var(--ana-renk);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: none;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+    .btn-macfit:hover {
+        background-color: #b00e13;
+        transform: scale(1.05);
+        color: white;
+    }
+
+/* --- ORTAK BUTON VE KART STÝLLERÝ --- */
+.btn-primary, .btn-danger {
+    background-color: var(--ana-renk) !important;
+    border-color: var(--ana-renk) !important;
+}
+
+    .btn-primary:hover, .btn-danger:hover {
+        background-color: #b00e13 !important;
+    }
+
+/* Havalý Kart (Gym Card) */
+.gym-card {
+    border: none;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    height: 100%;
+}
+
+    .gym-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(227, 30, 36, 0.2);
+    }

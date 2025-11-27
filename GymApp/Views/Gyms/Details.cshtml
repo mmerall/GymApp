@@ -1,0 +1,98 @@
+﻿@model GymApp.Models.Gym
+
+@{
+    ViewData["Title"] = "Salon Detayı";
+    // Eğer resim yoksa varsayılanı kullan
+    var arkaPlan = !string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1920&q=80";
+}
+
+<div style="height: 400px; background: linear-gradient(to bottom, rgba(0,0,0,0.4), #1a1a1a), url('@arkaPlan'); background-size: cover; background-position: center; border-radius: 0 0 30px 30px; display: flex; align-items: flex-end; padding: 40px; color: white; margin-bottom: 30px; margin-top: -25px; margin-left: -12px; margin-right: -12px;">
+    <div class="container-fluid">
+        <span class="badge bg-danger mb-2">Premium Salon</span>
+        <h1 class="display-4 fw-bold">@Model.Name</h1>
+        <p class="fs-5"><i class="fa-solid fa-location-dot me-2"></i>@Model.Address</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <h3 class="fw-bold mb-3">Salon Hakkında</h3>
+
+                <p class="text-muted">
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span>Bu salon için henüz detaylı açıklama girilmemiştir.</span>
+                    }
+                </p>
+
+                <hr class="my-4 opacity-25">
+
+                <div class="row">
+                    @if (Model.HasWifi)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-center p-3 rounded-3 bg-light">
+                                <i class="fa-solid fa-wifi fa-2x text-danger me-3"></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">WiFi</h6>
+                                    <small class="text-muted">Ücretsiz</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.HasShowers)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-center p-3 rounded-3 bg-light">
+                                <i class="fa-solid fa-shower fa-2x text-danger me-3"></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Duş Alanı</h6>
+                                    <small class="text-muted">Hijyenik</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.HasMusic)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-center p-3 rounded-3 bg-light">
+                                <i class="fa-solid fa-music fa-2x text-danger me-3"></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">Müzik Yayını</h6>
+                                    <small class="text-muted">Motivasyon</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!Model.HasWifi && !Model.HasShowers && !Model.HasMusic)
+                    {
+                        <div class="text-muted fst-italic">Bu salon için ekstra özellik belirtilmemiş.</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow rounded-4 p-4 sticky-top" style="top: 20px;">
+                <h5 class="fw-bold mb-3">İletişim & Saatler</h5>
+                <p class="mb-2"><i class="fa-solid fa-clock text-muted me-2"></i> @Model.OpeningHours</p>
+                <p class="mb-4"><i class="fa-solid fa-star text-warning me-2"></i> @Model.Rating.ToString("0.0") / 5.0 Puan</p>
+
+                <button class="btn btn-danger w-100 rounded-pill py-2 mb-2 fw-bold">Randevu Al</button>
+                <a asp-action="Index" class="btn btn-outline-secondary w-100 rounded-pill py-2">Listeye Dön</a>
+                <div class="text-center mt-3">
+                    <a asp-action="Edit" asp-route-id="@Model.GymId" class="text-muted small"><i class="fa-solid fa-pen me-1"></i> Yönetici Düzenlemesi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

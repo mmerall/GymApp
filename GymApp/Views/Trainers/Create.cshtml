@@ -1,0 +1,72 @@
+﻿@model GymApp.Models.Trainer
+
+@{
+    ViewData["Title"] = "Yeni Eğitmen Ekle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg rounded-4 mt-4">
+            <div class="card-header bg-warning text-dark p-4 rounded-top-4">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-user-plus me-2"></i> Yeni Eğitmen Tanımla</h3>
+                <small>Kadronuza yeni bir uzman ekleyin.</small>
+            </div>
+            <div class="card-body p-5">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="FullName" class="form-label fw-bold text-muted">Ad Soyad</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-user text-warning"></i></span>
+                            <input asp-for="FullName" class="form-control" placeholder="Örn: Ahmet Yılmaz" />
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Specialization" class="form-label fw-bold text-muted">Uzmanlık Alanı</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-medal text-warning"></i></span>
+                                <input asp-for="Specialization" class="form-control" placeholder="Fitness, Yoga..." />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Experience" class="form-label fw-bold text-muted">Deneyim (Yıl)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-calendar text-warning"></i></span>
+                                <input asp-for="Experience" type="number" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="GymId" class="form-label fw-bold text-muted">Görev Yeri (Salon)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-building text-warning"></i></span>
+                            <select asp-for="GymId" class="form-select" asp-items="ViewBag.GymId"></select>
+                        </div>
+                        <small class="text-muted">Listeden antrenörün çalışacağı salonu seçin.</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ImageUrl" class="form-label fw-bold text-muted">Profil Fotoğrafı (URL)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-image text-warning"></i></span>
+                            <input asp-for="ImageUrl" class="form-control" placeholder="https://..." />
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-warning btn-lg rounded-pill fw-bold shadow text-dark">
+                            <i class="fa-solid fa-check me-2"></i> EĞİTMENİ KAYDET
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">Listeye Dön</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

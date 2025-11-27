@@ -1,0 +1,78 @@
+﻿@model GymApp.Models.Trainer
+
+@{
+    ViewData["Title"] = "Eğitmeni Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg rounded-4 mt-4">
+            <div class="card-header bg-dark text-white p-4 rounded-top-4">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-user-pen me-2"></i> Eğitmen Bilgilerini Düzenle</h3>
+                <small>@Model.FullName profilini güncelliyorsunuz.</small>
+            </div>
+            <div class="card-body p-5">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="TrainerId" />
+
+                    <div class="mb-4">
+                        <label asp-for="FullName" class="form-label fw-bold text-muted">Ad Soyad</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-user text-dark"></i></span>
+                            <input asp-for="FullName" class="form-control" />
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Specialization" class="form-label fw-bold text-muted">Uzmanlık Alanı</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-medal text-dark"></i></span>
+                                <input asp-for="Specialization" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Experience" class="form-label fw-bold text-muted">Deneyim (Yıl)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-calendar text-dark"></i></span>
+                                <input asp-for="Experience" type="number" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="GymId" class="form-label fw-bold text-muted">Görev Yeri (Salon)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-building text-dark"></i></span>
+                            <select asp-for="GymId" class="form-select" asp-items="ViewBag.GymId"></select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ImageUrl" class="form-label fw-bold text-muted">Profil Fotoğrafı (URL)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-image text-dark"></i></span>
+                            <input asp-for="ImageUrl" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-dark btn-lg rounded-pill fw-bold shadow">
+                            <i class="fa-solid fa-check me-2"></i> KAYDET
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

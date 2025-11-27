@@ -1,0 +1,54 @@
+﻿@model IEnumerable<GymApp.Models.Gym>
+
+@{
+    ViewData["Title"] = "Salonlar";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 p-4 rounded-3 shadow-sm" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white;">
+    <div>
+        <h1 class="display-6 fw-bold mb-1">Spor Salonları</h1>
+        <p class="text-white-50 mb-0">Premium salonları keşfet.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-danger btn-lg rounded-pill px-4 shadow">
+        <i class="fa-solid fa-plus me-2"></i> Yeni Ekle
+    </a>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-6 col-lg-4 mb-5">
+            <div class="card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; transition: transform 0.3s;">
+
+                <div style="height: 220px; position: relative; overflow: hidden;">
+                    <span class="badge bg-white text-danger fw-bold shadow-sm" style="position: absolute; top: 15px; right: 15px; border-radius: 30px; padding: 5px 12px;">
+                        <i class="fa-solid fa-star me-1"></i> @item.Rating.ToString("0.0")
+                    </span>
+
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" style="width: 100%; height: 100%; object-fit: cover;" alt="@item.Name">
+                    }
+                    else
+                    {
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80" style="width: 100%; height: 100%; object-fit: cover;" alt="Varsayılan Resim">
+                    }
+                </div>
+
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark">@item.Name</h5>
+                    <div class="text-muted small mb-2"><i class="fa-solid fa-location-dot text-danger me-2"></i> @item.Address</div>
+                    <div class="text-muted small"><i class="fa-solid fa-clock text-danger me-2"></i> @item.OpeningHours</div>
+                </div>
+
+                <div class="card-footer bg-light border-0 p-3 d-flex justify-content-between align-items-center">
+                    <a asp-action="Details" asp-route-id="@item.GymId" class="btn btn-dark rounded-pill btn-sm px-3 fw-bold">İncele</a>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.GymId" class="text-secondary me-3" title="Düzenle"><i class="fa-solid fa-pen"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.GymId" class="text-danger" title="Sil"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

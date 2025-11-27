@@ -1,0 +1,38 @@
+﻿@model GymApp.Models.Gym
+
+@{
+    ViewData["Title"] = "Sil";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-lg rounded-4 text-center">
+            <div class="card-header bg-danger text-white p-4 rounded-top-4">
+                <i class="fa-solid fa-triangle-exclamation fa-4x mb-3"></i>
+                <h3 class="fw-bold">Bu Salonu Silmek İstiyor musunuz?</h3>
+                <p class="mb-0">Bu işlem geri alınamaz.</p>
+            </div>
+
+            <div class="card-body p-5">
+                <h2 class="text-dark fw-bold mb-3">@Model.Name</h2>
+
+                <div class="alert alert-light border">
+                    <p class="mb-1"><i class="fa-solid fa-location-dot text-danger me-2"></i> @Model.Address</p>
+                    <p class="mb-0"><i class="fa-solid fa-clock text-danger me-2"></i> @Model.OpeningHours</p>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="GymId" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-bold shadow">
+                            <i class="fa-solid fa-trash-can me-2"></i> EVET, SİL
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">
+                            Vazgeç
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
