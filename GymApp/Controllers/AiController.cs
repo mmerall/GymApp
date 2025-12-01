@@ -67,4 +67,4 @@ namespace GymApp.Controllers
             return Json(response);
         }
     }
-}
+} 
