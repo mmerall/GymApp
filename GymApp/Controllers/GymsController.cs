@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GymApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")] 
     public class GymsController : Controller
     {
         private readonly ApplicationDbContext _context;
