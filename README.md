@@ -3,6 +3,7 @@
 **Sakarya Üniversitesi - Web Programlama Dersi Proje Ödevi**
 
 Bu proje, **ASP.NET Core MVC** mimarisi kullanılarak geliştirilmiş modern bir Fitness Merkezi Yönetim Sistemidir.
+(Sistem güvenliği gereği Admin şifresi Sau.123! olarak güncellenmiştir.)
 
 ### 🚀 Proje Özellikleri
 * **Salon Yönetimi:** Spor salonlarının özellikleri (WiFi, Duş vb.), çalışma saatleri ve detaylarının yönetimi.
