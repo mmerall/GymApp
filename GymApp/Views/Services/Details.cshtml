@@ -1,0 +1,55 @@
+﻿@model GymApp.Models.Service
+
+@{
+    ViewData["Title"] = "Hizmet Detayı";
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-danger m-5">
+        <h4><i class="fa-solid fa-triangle-exclamation"></i> Hata!</h4>
+        <p>Aradığınız hizmet bulunamadı veya silinmiş.</p>
+        <a href="/Services/Index" class="btn btn-outline-danger">Geri Dön</a>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="p-5 text-center text-white" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <i class="fa-solid fa-dumbbell fa-4x mb-3 opacity-75"></i>
+                    <h2 class="fw-bold mb-0">@Model.Name</h2>
+
+                    <span class="badge bg-white text-success rounded-pill mt-2 px-3">
+                        <i class="fa-solid fa-building me-1"></i> @(Model.Gym?.Name ?? "Salon Bilgisi Yok")
+                    </span>
+                </div>
+
+                <div class="card-body p-5 text-center">
+                    <div class="row mb-4">
+                        <div class="col-6 border-end">
+                            <h1 class="text-success fw-bold mb-0">₺@Model.Price.ToString("0")</h1>
+                            <small class="text-muted fw-bold text-uppercase">Ücret</small>
+                        </div>
+                        <div class="col-6">
+                            <h1 class="text-warning fw-bold mb-0">@Model.Duration</h1>
+                            <small class="text-muted fw-bold text-uppercase">Dakika</small>
+                        </div>
+                    </div>
+
+                    <p class="text-muted fs-5 mb-4">
+                        @(string.IsNullOrEmpty(Model.Description) ? "Açıklama girilmemiş." : Model.Description)
+                    </p>
+
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.ServiceId" class="btn btn-outline-success rounded-pill fw-bold">
+                            <i class="fa-solid fa-pen me-2"></i> Düzenle
+                        </a>
+                        <a asp-action="Index" class="btn btn-link text-muted text-decoration-none">Listeye Dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

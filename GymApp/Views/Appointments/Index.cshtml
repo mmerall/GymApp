@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GymApp.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-5 p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <div>
+        <h1 class="display-6 fw-bold mb-1">Randevular</h1>
+        <p class="text-white-50 mb-0">Planlanmış antrenmanlarınızı takip edin.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-light btn-lg rounded-pill px-4 fw-bold shadow text-primary">
+        <i class="fa-solid fa-calendar-plus me-2"></i> Randevu Al
+    </a>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        var statusColor = item.Status == "Onaylandı" ? "success" : (item.Status == "İptal" ? "danger" : "warning");
+        var icon = item.Status == "Onaylandı" ? "check-circle" : (item.Status == "İptal" ? "times-circle" : "clock");
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden">
+                <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-@statusColor bg-opacity-10 text-@statusColor px-3 py-2 rounded-pill">
+                        <i class="fa-solid fa-@icon me-1"></i> @item.Status
+                    </span>
+                    <small class="text-muted"><i class="fa-solid fa-calendar-day me-1"></i> @item.AppointmentDate.ToString("dd MMM yyyy")</small>
+                </div>
+
+                <div class="card-body px-4">
+                    <h2 class="fw-bold mb-0 text-dark">@item.AppointmentDate.ToString("HH:mm")</h2>
+                    <p class="text-muted small mb-3">Antrenman Saati</p>
+
+                    <div class="d-flex align-items-center mb-3 p-3 bg-light rounded-3">
+                        <div class="me-3 bg-white p-2 rounded-circle shadow-sm text-primary">
+                            <i class="fa-solid fa-user-ninja fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">@item.Trainer.FullName</h6>
+                            <small class="text-muted">Eğitmen</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <i class="fa-solid fa-dumbbell text-secondary me-2"></i>
+                        <strong>Ders:</strong> @item.Service.Name
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-location-dot text-secondary me-2"></i>
+                        <strong>Salon:</strong> @item.Gym.Name
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-0 p-4 pt-0">
+                    <hr class="opacity-10 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Details" asp-route-id="@item.AppointmentId" class="btn btn-outline-primary btn-sm rounded-pill px-3">Detay</a>
+
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.AppointmentId" class="btn btn-outline-secondary btn-sm rounded-start-pill" title="Değiştir">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.AppointmentId" class="btn btn-outline-danger btn-sm rounded-end-pill" title="İptal Et">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fa-solid fa-calendar-xmark fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">Henüz hiç randevunuz yok.</h4>
+        <p class="text-muted">Yukarıdaki butona tıklayarak ilk antrenmanınızı planlayın!</p>
+    </div>
+}

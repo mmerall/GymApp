@@ -45,5 +45,7 @@ namespace GymApp.Models
         // ----------------------------------
 
         public ICollection<Trainer>? Trainers { get; set; }
+        // Salonun hizmetleri
+        public ICollection<Service>? Services { get; set; }
     }
 }

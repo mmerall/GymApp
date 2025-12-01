@@ -1,0 +1,53 @@
+﻿@model GymApp.Models.Appointment
+
+@{
+    ViewData["Title"] = "Randevu İptali";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-lg rounded-4 text-center">
+            <div class="card-header bg-danger text-white p-4 rounded-top-4">
+                <i class="fa-solid fa-calendar-xmark fa-4x mb-3"></i>
+                <h3 class="fw-bold">Randevuyu İptal Etmek İstiyor musunuz?</h3>
+                <p class="mb-0">Bu işlem geri alınamaz.</p>
+            </div>
+
+            <div class="card-body p-5">
+                <h1 class="display-4 fw-bold text-dark mb-2">@Model.AppointmentDate.ToString("HH:mm")</h1>
+                <h4 class="text-muted text-uppercase mb-4">@Model.AppointmentDate.ToString("dd MMMM yyyy")</h4>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <ul class="list-group list-group-flush text-start">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-bold text-muted">Salon:</span>
+                                <span>@Model.Gym.Name</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-bold text-muted">Eğitmen:</span>
+                                <span>@Model.Trainer.FullName</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-bold text-muted">Ders:</span>
+                                <span>@Model.Service.Name</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" class="mt-5">
+                    <input type="hidden" asp-for="AppointmentId" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-bold shadow">
+                            <i class="fa-solid fa-ban me-2"></i> RANDEVUYU İPTAL ET
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">
+                            Vazgeç
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

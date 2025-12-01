@@ -1,0 +1,69 @@
+﻿@model IEnumerable<GymApp.Models.Service>
+
+@{
+    ViewData["Title"] = "Hizmetler & Paketler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-5 p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white;">
+    <div>
+        <h1 class="display-6 fw-bold mb-1">Hizmetler & Paketler</h1>
+        <p class="text-white-50 mb-0">Salonlarınızda verilen dersleri ve ücretleri yönetin.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-light btn-lg rounded-pill px-4 fw-bold shadow text-success">
+        <i class="fa-solid fa-plus me-2"></i> Yeni Hizmet Ekle
+    </a>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4 d-flex flex-column">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h4 class="fw-bold mb-1">@item.Name</h4>
+                            <span class="badge bg-light text-dark border">
+                                <i class="fa-solid fa-building text-success me-1"></i> @(item.Gym != null ? item.Gym.Name : "Genel")
+                            </span>
+                        </div>
+                        <h3 class="text-success fw-bold">₺@item.Price.ToString("0")</h3>
+                    </div>
+
+                    <p class="text-muted flex-grow-1">
+                        @(string.IsNullOrEmpty(item.Description) ? "Bu hizmet için açıklama girilmemiş." : item.Description)
+                    </p>
+
+                    <div class="d-flex align-items-center mb-4 text-secondary fw-bold">
+                        <i class="fa-solid fa-clock me-2 text-warning"></i> @item.Duration Dakika
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a asp-action="Details" asp-route-id="@item.ServiceId" class="btn btn-outline-success rounded-pill fw-bold">
+                            <i class="fa-solid fa-eye me-2"></i> İncele
+                        </a>
+
+                        <div class="btn-group" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.ServiceId" class="btn btn-outline-secondary rounded-start-pill">
+                                <i class="fa-solid fa-pen"></i> Düzenle
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ServiceId" class="btn btn-outline-danger rounded-end-pill">
+                                <i class="fa-solid fa-trash"></i> Sil
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fa-solid fa-clipboard-list fa-4x text-muted mb-3"></i>
+        <h4 class="text-muted">Henüz hizmet eklenmemiş.</h4>
+    </div>
+}

@@ -116,12 +116,9 @@
             <h1 class="display-5 fw-bold mb-2">Hoşgeldiniz👋</h1>
             <p class="fs-5 text-white-50 mb-4">Spor salonu yönetim paneliniz hazır. Bugün sistemde her şey yolunda görünüyor.</p>
             <div class="d-flex gap-3">
-                <button class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow">
-                    <i class="fa-solid fa-bolt me-2"></i> Hızlı Rapor
-                </button>
-                <button class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">
-                    <i class="fa-solid fa-gear me-2"></i> Ayarlar
-                </button>
+                <a href="/Ai/Index" class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow">
+                    <i class="fa-solid fa-robot me-2"></i> AI Antrenör
+                </a>
             </div>
         </div>
         <div class="col-md-4 d-none d-md-block text-end opacity-75">
@@ -135,7 +132,7 @@
         <div class="stat-card primary">
             <div>
                 <h6 class="text-muted fw-bold text-uppercase mb-1">Toplam Üye</h6>
-                <h2 class="fw-bold mb-0">1,245</h2>
+                <h2 class="fw-bold mb-0">@ViewBag.UyeSayisi</h2>
                 <small class="text-success fw-bold"><i class="fa-solid fa-arrow-up"></i> %12 Artış</small>
             </div>
             <div class="stat-icon bg-light-primary">
@@ -148,7 +145,7 @@
         <div class="stat-card success">
             <div>
                 <h6 class="text-muted fw-bold text-uppercase mb-1">Aktif Salon</h6>
-                <h2 class="fw-bold mb-0">8</h2>
+                <h2 class="fw-bold mb-0">@ViewBag.SalonSayisi</h2>
                 <small class="text-success fw-bold">Tüm Sistemler Aktif</small>
             </div>
             <div class="stat-icon bg-light-success">
@@ -161,7 +158,7 @@
         <div class="stat-card warning">
             <div>
                 <h6 class="text-muted fw-bold text-uppercase mb-1">Eğitmenler</h6>
-                <h2 class="fw-bold mb-0">42</h2>
+                <h2 class="fw-bold mb-0">@ViewBag.EgitmenSayisi</h2>
                 <small class="text-muted">3 Yeni Başvuru</small>
             </div>
             <div class="stat-icon bg-light-warning">
@@ -174,7 +171,7 @@
         <div class="stat-card danger">
             <div>
                 <h6 class="text-muted fw-bold text-uppercase mb-1">Aylık Ciro</h6>
-                <h2 class="fw-bold mb-0">₺185K</h2>
+                <h2 class="fw-bold mb-0">₺@ViewBag.TahminiCiro</h2>
                 <small class="text-success fw-bold"><i class="fa-solid fa-arrow-up"></i> %5 Hedef Üstü</small>
             </div>
             <div class="stat-icon bg-light-danger">
@@ -212,19 +209,19 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="#" class="quick-action-btn">
+                        <a href="/Trainers/Create" class="quick-action-btn">
                             <div class="me-3 p-2 rounded bg-light text-warning"><i class="fa-solid fa-user-plus fa-lg"></i></div>
                             <div>
-                                <div class="fw-bold">Antrenör Atama (Yakında)</div>
+                                <div class="fw-bold">Yeni Antrenör Ekle</div>
                                 <small class="text-muted">Eğitmenleri şubelere ata</small>
                             </div>
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="#" class="quick-action-btn">
+                        <a href="/Reports/Index" class="quick-action-btn">
                             <div class="me-3 p-2 rounded bg-light text-success"><i class="fa-solid fa-chart-pie fa-lg"></i></div>
                             <div>
-                                <div class="fw-bold">Raporlar (Yakında)</div>
+                                <div class="fw-bold">Raporları İncele</div>
                                 <small class="text-muted">Detaylı analizleri incele</small>
                             </div>
                         </a>

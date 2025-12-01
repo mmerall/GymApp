@@ -1,0 +1,56 @@
+﻿@model GymApp.Models.Appointment
+
+@{
+    ViewData["Title"] = "Randevu Detayı";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-4 bg-primary text-white d-flex flex-column justify-content-center align-items-center p-5 text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h1 class="display-1 fw-bold mb-0">@Model.AppointmentDate.Day</h1>
+                    <h3 class="text-uppercase mb-4 opacity-75">@Model.AppointmentDate.ToString("MMMM")</h3>
+                    <div class="bg-white text-primary px-4 py-2 rounded-pill fw-bold shadow-sm">
+                        @Model.AppointmentDate.ToString("HH:mm")
+                    </div>
+                </div>
+
+                <div class="col-md-8 p-5">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <small class="text-uppercase text-muted fw-bold ls-1">Rezervasyon No: #@Model.AppointmentId</small>
+                            <h2 class="fw-bold mt-1">Antrenman Özeti</h2>
+                        </div>
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">@Model.Status</span>
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <div class="col-6">
+                            <label class="text-muted small fw-bold text-uppercase">Salon</label>
+                            <h5 class="fw-bold text-dark">@Model.Gym.Name</h5>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-muted small fw-bold text-uppercase">Ders / Hizmet</label>
+                            <h5 class="fw-bold text-dark">@Model.Service.Name</h5>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-muted small fw-bold text-uppercase">Eğitmen</label>
+                            <div class="d-flex align-items-center mt-2">
+                                <div class="bg-light p-2 rounded-circle me-3">
+                                    <i class="fa-solid fa-user-ninja text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-0">@Model.Trainer.FullName</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.AppointmentId" class="btn btn-outline-dark rounded-pill px-4">Değiştir</a>
+                        <a asp-action="Index" class="btn btn-link text-muted text-decoration-none">Geri Dön</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

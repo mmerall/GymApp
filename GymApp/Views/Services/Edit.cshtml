@@ -1,0 +1,65 @@
+﻿@model GymApp.Models.Service
+
+@{
+    ViewData["Title"] = "Hizmeti Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-lg rounded-4 mt-4">
+            <div class="card-header bg-dark text-white p-4 rounded-top-4">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-pen-to-square me-2"></i> Hizmeti Düzenle</h3>
+                <small>@Model.Name bilgilerini güncelliyorsunuz.</small>
+            </div>
+            <div class="card-body p-5">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ServiceId" />
+
+                    <div class="mb-4">
+                        <label asp-for="Name" class="form-label fw-bold text-muted">Hizmet Adı</label>
+                        <input asp-for="Name" class="form-control form-control-lg" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Price" class="form-label fw-bold text-muted">Ücret (₺)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light fw-bold">₺</span>
+                                <input asp-for="Price" type="number" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Duration" class="form-label fw-bold text-muted">Süre (Dakika)</label>
+                            <input asp-for="Duration" type="number" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="GymId" class="form-label fw-bold text-muted">Salon</label>
+                        <select asp-for="GymId" class="form-select" asp-items="ViewBag.GymId"></select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label fw-bold text-muted">Açıklama</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-dark btn-lg rounded-pill fw-bold shadow">
+                            <i class="fa-solid fa-save me-2"></i> GÜNCELLE
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

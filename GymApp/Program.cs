@@ -10,7 +10,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false) // Mail onayý istemesin, testi kolaylaþtýralým
+    .AddRoles<IdentityRole>() // <--- ÝÞTE BU SATIR ROLLERÝ AKTÝF EDER
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -39,5 +40,13 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+// --- SEEDING (Otomatik Veri Ekleme) ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await GymApp.Data.DbSeeder.SeedRolesAndAdminAsync(services);
+}
+// -------------------------------------
 
+app.Run();
 app.Run();

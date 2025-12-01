@@ -1,0 +1,72 @@
+﻿@model GymApp.Models.Appointment
+
+@{
+    ViewData["Title"] = "Randevuyu Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-lg rounded-4 mt-4">
+            <div class="card-header bg-dark text-white p-4 rounded-top-4">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-calendar-days me-2"></i> Randevuyu Güncelle</h3>
+            </div>
+
+            <div class="card-body p-5">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="AppointmentId" />
+                    <div class="mb-4">
+                        <label asp-for="AppointmentDate" class="form-label fw-bold text-muted">Yeni Tarih ve Saat</label>
+                        <input asp-for="AppointmentDate" class="form-control form-control-lg" type="datetime-local" />
+                        <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="GymId" class="form-label fw-bold text-muted">Salon</label>
+                        <select asp-for="GymId" class="form-select" asp-items="ViewBag.GymId"></select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TrainerId" class="form-label fw-bold text-muted">Eğitmen</label>
+                        <select asp-for="TrainerId" class="form-select" asp-items="ViewBag.TrainerId"></select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ServiceId" class="form-label fw-bold text-muted">Hizmet</label>
+                        <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.ServiceId"></select>
+                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="card bg-warning bg-opacity-10 border-warning mb-4">
+                            <div class="card-body">
+                                <label asp-for="Status" class="form-label fw-bold text-dark">Randevu Durumu (Yönetici)</label>
+                                <select asp-for="Status" class="form-select border-warning text-dark fw-bold">
+                                    <option value="Onay Bekliyor">Onay Bekliyor</option>
+                                    <option value="Onaylandı">✅ Onaylandı</option>
+                                    <option value="İptal">❌ İptal Edildi</option>
+                                    <option value="Tamamlandı">🏁 Tamamlandı</option>
+                                </select>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Status" />
+                    }
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-dark btn-lg rounded-pill fw-bold shadow">
+                            <i class="fa-solid fa-save me-2"></i> GÜNCELLE
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

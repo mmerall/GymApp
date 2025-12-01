@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Yönetici Raporları";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-0">📊 Sistem Raporları</h1>
+            <p class="text-muted">REST API üzerinden çekilen canlı veriler.</p>
+        </div>
+        <button onclick="verileriYenile()" class="btn btn-primary rounded-pill shadow-sm">
+            <i class="fa-solid fa-rotate me-2"></i> Verileri Yenile
+        </button>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-8 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-chart-column text-primary me-2"></i> Salonlara Göre Eğitmen Sayıları</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="gymTrainerChart" style="max-height: 400px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-chart-pie text-success me-2"></i> Veri Özeti</h5>
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <canvas id="summaryChart" style="max-height: 300px;"></canvas>
+                    <div class="mt-4 text-center">
+                        <h2 class="fw-bold" id="totalGyms">0</h2>
+                        <small class="text-muted text-uppercase fw-bold">Toplam Salon</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Sayfa Yüklendiğinde Çalıştır
+    document.addEventListener("DOMContentLoaded", function () {
+        verileriGetirVeCiz();
+    });
+
+    function verileriYenile() {
+        verileriGetirVeCiz();
+    }
+
+    async function verileriGetirVeCiz() {
+        try {
+            // 1. ADIM: API'den Verileri Çek (Bizim yazdığımız ApiController)
+            const responseTrainers = await fetch('/api/trainers');
+            const trainers = await responseTrainers.json();
+
+            const responseGyms = await fetch('/api/gyms');
+            const gyms = await responseGyms.json();
+
+            // 2. ADIM: Verileri Grafiğe Uygun Hale Getir
+
+            // Hangi salonda kaç hoca var hesapla
+            const salonIsimleri = [];
+            const hocaSayilari = [];
+
+            gyms.forEach(gym => {
+                salonIsimleri.push(gym.name);
+                // Bu salonun ID'sine sahip kaç hoca var?
+                // Not: API'den gelen veride 'gymName' var ama ID eşleşmesi daha sağlıklı olur.
+                // Şimdilik basitçe salon isminden gidiyoruz.
+                const count = trainers.filter(t => t.gymName === gym.name).length;
+                hocaSayilari.push(count);
+            });
+
+            // Toplam sayıları ekrana yaz
+            document.getElementById('totalGyms').innerText = gyms.length;
+
+            // 3. ADIM: Grafikleri Çiz
+            cizBarChart(salonIsimleri, hocaSayilari);
+            cizPieChart(gyms.length, trainers.length);
+
+        } catch (error) {
+            console.error("API Hatası:", error);
+            alert("Veriler çekilemedi! Lütfen API'nin çalıştığından emin olun.");
+        }
+    }
+
+    let myBarChart;
+    let myPieChart;
+
+    function cizBarChart(labels, data) {
+        const ctx = document.getElementById('gymTrainerChart').getContext('2d');
+
+        if (myBarChart) myBarChart.destroy(); // Eskisini sil
+
+        myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Eğitmen Sayısı',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    }
+
+    function cizPieChart(gymCount, trainerCount) {
+        const ctx = document.getElementById('summaryChart').getContext('2d');
+
+        if (myPieChart) myPieChart.destroy();
+
+        myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Salonlar', 'Eğitmenler'],
+                datasets: [{
+                    data: [gymCount, trainerCount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(255, 206, 86, 0.7)'
+                    ],
+                    borderWidth: 0
+                }]
+            }
+        });
+    }
+</script>

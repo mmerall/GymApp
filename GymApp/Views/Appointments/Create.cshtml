@@ -1,0 +1,123 @@
+﻿@model GymApp.Models.Appointment
+
+@{
+    ViewData["Title"] = "Randevu Al";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-lg rounded-4 mt-4">
+            <div class="card-header bg-primary text-white p-4 rounded-top-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-calendar-plus me-2"></i> Randevu Oluştur</h3>
+                <small>Lütfen önce salonu seçiniz.</small>
+            </div>
+
+            <div class="card-body p-5">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="AppointmentDate" class="form-label fw-bold text-muted">Tarih ve Saat</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-clock text-primary"></i></span>
+                            <input asp-for="AppointmentDate" class="form-control form-control-lg" type="datetime-local"
+                                   min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        </div>
+                        <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="GymId" class="form-label fw-bold text-muted">Salon Seçiniz</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-building text-primary"></i></span>
+                            <select asp-for="GymId" class="form-select" asp-items="ViewBag.GymId">
+                                <option value="">-- Önce Salon Seçin --</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="GymId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TrainerId" class="form-label fw-bold text-muted">Eğitmen</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-user-ninja text-primary"></i></span>
+                            <select asp-for="TrainerId" class="form-select" disabled>
+                                <option value="">-- Lütfen Salon Seçiniz --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ServiceId" class="form-label fw-bold text-muted">Hizmet / Ders</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-dumbbell text-primary"></i></span>
+                            <select asp-for="ServiceId" class="form-select" disabled>
+                                <option value="">-- Lütfen Salon Seçiniz --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow" style="background: #764ba2; border:none;">
+                            <i class="fa-solid fa-check-circle me-2"></i> RANDEVUYU ONAYLA
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">Vazgeç</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Salon kutusu değiştiğinde çalışır
+            $('#GymId').change(function () {
+                var gymId = $(this).val(); // Seçilen salonun ID'sini al
+
+                // Kutuları temizle ve "Yükleniyor..." yaz
+                $('#TrainerId').empty().append('<option value="">Yükleniyor...</option>').prop('disabled', true);
+                $('#ServiceId').empty().append('<option value="">Yükleniyor...</option>').prop('disabled', true);
+
+                if (gymId) {
+                    // 1. EĞİTMENLERİ GETİR
+                    $.ajax({
+                        url: '/Appointments/GetTrainersByGym', // Controller'daki metodumuz
+                        type: 'GET',
+                        data: { gymId: gymId },
+                        success: function (data) {
+                            $('#TrainerId').empty().append('<option value="">-- Eğitmen Seçin --</option>');
+                            $.each(data, function (i, item) {
+                                $('#TrainerId').append($('<option>').text(item.text).attr('value', item.value));
+                            });
+                            $('#TrainerId').prop('disabled', false); // Kutuyu aktif et
+                        }
+                    });
+
+                    // 2. HİZMETLERİ GETİR
+                    $.ajax({
+                        url: '/Appointments/GetServicesByGym', // Controller'daki metodumuz
+                        type: 'GET',
+                        data: { gymId: gymId },
+                        success: function (data) {
+                            $('#ServiceId').empty().append('<option value="">-- Hizmet Seçin --</option>');
+                            $.each(data, function (i, item) {
+                                $('#ServiceId').append($('<option>').text(item.text).attr('value', item.value));
+                            });
+                            $('#ServiceId').prop('disabled', false); // Kutuyu aktif et
+                        }
+                    });
+                } else {
+                    // Eğer salon seçimi iptal edilirse kutuları tekrar kilitle
+                    $('#TrainerId').empty().append('<option value="">-- Lütfen Salon Seçiniz --</option>').prop('disabled', true);
+                    $('#ServiceId').empty().append('<option value="">-- Lütfen Salon Seçiniz --</option>').prop('disabled', true);
+                }
+            });
+        });
+    </script>
+}

@@ -28,10 +28,26 @@
                 <a href="/Trainers/Index" class="list-group-item list-group-item-action">
                     <i class="fa-solid fa-user-ninja"></i> Antrenörler
                 </a>
+                <a href="/Services/Index" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-tags"></i> Hizmetler
+                </a>
+                <a href="/Appointments/Index" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-calendar-check"></i> Randevularım
+                </a>
+                <a href="/Ai/Index" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-robot"></i> AI Antrenör
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="/Reports/Index" class="list-group-item list-group-item-action text-warning fw-bold">
+                        <i class="fa-solid fa-chart-line"></i> Raporlar (Admin)
+                    </a>
+                }
             </div>
         </div>
 
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" class="d-flex flex-column min-vh-100">
             <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 shadow-sm">
                 <div class="d-flex align-items-center">
                     <span class="fs-4 fw-bold text-secondary">Yönetim Paneli</span>
@@ -48,9 +64,25 @@
                 </div>
             </nav>
 
-            <div class="container-fluid p-4">
+            <div class="container-fluid p-4 flex-grow-1">
                 @RenderBody()
             </div>
+
+            <footer class="bg-white border-top py-3 mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; GYM APP @DateTime.Now.Year</div>
+                        <div>
+                            <span class="text-muted">Geliştirici: <strong>MISRA MERAL</strong></span>
+                            &middot;
+                            <a href="#" class="text-decoration-none">Gizlilik</a>
+                            &middot;
+                            <a href="#" class="text-decoration-none">Şartlar</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
         </div>
     </div>
 
