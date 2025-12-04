@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GymApp.Models;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace GymApp.Controllers
 {
     public class AiController : Controller
     {
+        // 👇 SENİN API KEY'İN BURADA KALSIN (Aynı Key) 👇
+        private const string ApiKey = "AIzaSyAjvSG3DPtn6PSkvFXZt19fR0LXMVyFFZY";
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -12,59 +17,70 @@ namespace GymApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult GeneratePlan([FromBody] AiRequestModel request)
+        public async Task<IActionResult> GeneratePlan([FromBody] AiRequestModel request)
         {
-            // 1. Vücut Kitle İndeksi (BMI) Hesapla
-            // Formül: Kilo / (Boy * Boy) [Metre cinsinden]
-            double heightInMeters = request.Height / 100;
-            double bmi = request.Weight / (heightInMeters * heightInMeters);
-
-            var response = new AiResponseModel();
-            response.WorkoutPlan = new List<string>();
-
-            // 2. BMI Durumu Belirle
+            // 1. Önce BMI (Vücut Kitle İndeksi) Hesaplayalım
+            // Boyu metreye çeviriyoruz (170 cm -> 1.70 m)
+            double heightInMeters = request.Height / 100.0;
+            double bmi = 0;
             string bmiStatus = "";
-            if (bmi < 18.5) bmiStatus = "Zayıf";
-            else if (bmi < 25) bmiStatus = "Normal";
-            else if (bmi < 30) bmiStatus = "Fazla Kilolu";
-            else bmiStatus = "Obez";
 
-            response.BmiResult = $"Vücut Kitle İndeksin: {bmi:F1} ({bmiStatus})";
-
-            // 3. Hedefe ve Duruma Göre Akıllı Program Oluştur (Sanki AI yazmış gibi)
-
-            // SENARYO A: KİLO VERMEK İSTİYORSA
-            if (request.Goal == "Kilo Ver")
+            if (heightInMeters > 0)
             {
-                response.Advice = $"Merhaba! {request.Age} yaşında bir {request.Gender} olarak, şu anki vücut analizin '{bmiStatus}' kategorisinde. Senin için metabolizmanı hızlandıracak 'High Intensity' (HIIT) odaklı bir program hazırladım. Önceliğimiz kalori açığı oluşturmak.";
+                bmi = request.Weight / (heightInMeters * heightInMeters);
 
-                response.WorkoutPlan.Add("🏃‍♂️ 20 Dk Sabah Aç Karnına Kardiyo (Yürüyüş/Koşu)");
-                response.WorkoutPlan.Add("🔥 3x15 Burpees & Jumping Jacks (Süper Set)");
-                response.WorkoutPlan.Add("🏋️‍♂️ Tüm Vücut Dambıl Antrenmanı (Hafif Kilo, Çok Tekrar)");
-                response.WorkoutPlan.Add("🥗 Diyet Önerisi: Karbonhidratı azalt, protein ve sebze ağırlıklı beslen.");
-            }
-            // SENARYO B: KAS YAPMAK İSTİYORSA
-            else if (request.Goal == "Kas Yap")
-            {
-                response.Advice = $"Harika bir hedef! {bmi:F1} BMI değerin kas inşası için uygun bir temel sağlıyor. Senin için hipertrofi (kas büyümesi) odaklı, 'Progressive Overload' prensibine dayalı bir program hazırladım.";
-
-                response.WorkoutPlan.Add("💪 4x8 Bench Press (Göğüs & Arka Kol)");
-                response.WorkoutPlan.Add("🏋️‍♂️ 4x10 Squat & Deadlift (Bacak & Sırt)");
-                response.WorkoutPlan.Add("🧴 Kreatin ve Whey Protein takviyesi düşünülebilir.");
-                response.WorkoutPlan.Add("🥩 Diyet Önerisi: Günlük kilon başına x2 gr protein almalısın.");
-            }
-            // SENARYO C: FİT KALMAK İSTİYORSA
-            else
-            {
-                response.Advice = $"Formunu korumak istiyorsun, bu harika! {bmiStatus} bir vücut yapın var. Senin için dayanıklılığını ve esnekliğini artıracak hibrit bir program hazırladım.";
-
-                response.WorkoutPlan.Add("🧘‍♀️ 30 Dk Yoga & Pilates (Esneklik)");
-                response.WorkoutPlan.Add("🏊‍♂️ Haftada 2 gün Yüzme veya Bisiklet");
-                response.WorkoutPlan.Add("🤸‍♂️ Fonksiyonel Kuvvet Antrenmanı (Kendi vücut ağırlığınla)");
+                if (bmi < 18.5) bmiStatus = "Zayıf";
+                else if (bmi < 25) bmiStatus = "Normal Kilo";
+                else if (bmi < 30) bmiStatus = "Fazla Kilo";
+                else bmiStatus = "Obezite";
             }
 
-            // JSON Olarak Geri Dön (Sayfa yenilenmeden göstermek için)
-            return Json(response);
+            // 2. Yapay Zeka Bağlantısı (Gemini 2.0 Flash)
+            string url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={ApiKey}";
+
+            var promptData = new
+            {
+                contents = new[]
+                {
+                    new { parts = new[] { new { text = $"Sen samimi bir spor hocasısın. {request.Age} yaşında, {request.Gender}, {request.Weight} kilo, {request.Height} boyunda, hedefi '{request.Goal}' olan biri için program hazırla. Cevap metnini HTML formatında verme, sadece düz yazı olarak madde madde, emojilerle süsleyerek ve Türkçe yaz. Çok uzun olmasın." } } }
+                }
+            };
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var jsonContent = new StringContent(JsonConvert.SerializeObject(promptData), Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(url, jsonContent);
+                    var responseString = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        dynamic result = JsonConvert.DeserializeObject(responseString);
+                        string aiText = result.candidates[0].content.parts[0].text;
+
+                        return Json(new
+                        {
+                            // Artık buraya gerçek sonucu yazıyoruz
+                            BmiResult = $"BMI: {bmi:F1} - {bmiStatus}",
+
+                            // Tavsiye kısmına motivasyon cümlesi
+                            Advice = "Senin için harika bir başlangıç programı hazırladım! 💪",
+
+                            // AI cevabı
+                            WorkoutPlan = new string[] { aiText }
+                        });
+                    }
+                    else
+                    {
+                        return Json(new { Advice = "Hata oluştu, lütfen tekrar dene." });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { Advice = "Sistem Hatası: " + ex.Message });
+                }
+            }
         }
     }
-} 
+}
