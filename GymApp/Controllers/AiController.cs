@@ -7,7 +7,7 @@ namespace GymApp.Controllers
 {
     public class AiController : Controller
     {
-        // 👇 SENİN API KEY'İN BURADA KALSIN (Aynı Key) 👇
+       
         private const string ApiKey = "AIzaSyAjvSG3DPtn6PSkvFXZt19fR0LXMVyFFZY";
 
         [HttpGet]
@@ -19,8 +19,7 @@ namespace GymApp.Controllers
         [HttpPost]
         public async Task<IActionResult> GeneratePlan([FromBody] AiRequestModel request)
         {
-            // 1. Önce BMI (Vücut Kitle İndeksi) Hesaplayalım
-            // Boyu metreye çeviriyoruz (170 cm -> 1.70 m)
+
             double heightInMeters = request.Height / 100.0;
             double bmi = 0;
             string bmiStatus = "";
@@ -35,7 +34,7 @@ namespace GymApp.Controllers
                 else bmiStatus = "Obezite";
             }
 
-            // 2. Yapay Zeka Bağlantısı (Gemini 2.0 Flash)
+            
             string url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={ApiKey}";
 
             var promptData = new
