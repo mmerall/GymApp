@@ -30,7 +30,7 @@ namespace GymApp.Controllers
 
                 if (bmi < 18.5) bmiStatus = "Zayıf";
                 else if (bmi < 25) bmiStatus = "Normal Kilo";
-                else if (bmi < 30) bmiStatus = "Fazla Kilo";
+                else if (bmi < 30) bmiStatus = "Fazla Kilo"; 
                 else bmiStatus = "Obezite";
             }
 
@@ -60,13 +60,10 @@ namespace GymApp.Controllers
 
                         return Json(new
                         {
-                            // Artık buraya gerçek sonucu yazıyoruz
                             BmiResult = $"BMI: {bmi:F1} - {bmiStatus}",
 
-                            // Tavsiye kısmına motivasyon cümlesi
                             Advice = "Senin için harika bir başlangıç programı hazırladım! 💪",
 
-                            // AI cevabı
                             WorkoutPlan = new string[] { aiText }
                         });
                     }
