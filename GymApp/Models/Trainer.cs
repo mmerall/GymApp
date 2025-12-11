@@ -13,7 +13,7 @@ namespace GymApp.Models
 
         [Required(ErrorMessage = "Uzmanlık alanı belirtilmelidir.")]
         [Display(Name = "Uzmanlık Alanı")]
-        public string Specialization { get; set; } // Örn: Fitness, Pilates, Yoga
+        public string Specialization { get; set; } 
 
         [Display(Name = "Profil Resmi (URL)")]
         public string? ImageUrl { get; set; } // Antrenörün fotoğrafı
