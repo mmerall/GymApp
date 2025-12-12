@@ -16,7 +16,7 @@ namespace GymApp.Models
         public string Specialization { get; set; } 
 
         [Display(Name = "Profil Resmi (URL)")]
-        public string? ImageUrl { get; set; } // Antrenörün fotoğrafı
+        public string? ImageUrl { get; set; } 
 
         [Range(0, 50, ErrorMessage = "Deneyim 0-50 yıl arasında olmalıdır.")]
         [Display(Name = "Deneyim (Yıl)")]
