@@ -11,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false) // Mail onayý istemesin, testi kolaylaþtýralým
-    .AddRoles<IdentityRole>() // <--- ÝÞTE BU SATIR ROLLERÝ AKTÝF EDER
+    .AddRoles<IdentityRole>() 
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
