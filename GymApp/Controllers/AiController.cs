@@ -8,7 +8,7 @@ namespace GymApp.Controllers
     public class AiController : Controller
     {
        
-        private const string ApiKey = "AIzaSyAjvSG3DPtn6PSkvFXZt19fR0LXMVyFFZY";
+        private const string ApiKey = "";
 
         [HttpGet]
         public IActionResult Index()
